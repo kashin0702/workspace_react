@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .active {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="lib/react.js"></script>
+  <script src="lib/react-dom.js"></script>
+  <script src="lib/babel.js"></script>
+  
+  <script type="text/babel">
+    class App extends React.Component {
+      constructor() {
+        super()
+        this.state = {
+          movies: ['星际穿越', '盗梦空间', '指环王', '霍比特人'],
+          currentIndex: null
+        }
+      }
+      // 和原生js一样，默认接收一个事件对象参数
+      btnClick (event) {
+        console.log('event:', event)
+        console.log('this:', this)
+      }
+      // 接收多个参数
+      btnClick2 (name, age, event) {
+        console.log('event:', event)
+        console.log('name, age:', name, age)
+      }
+
+      // 电影点击事件, 点击的电影样式改变
+      movieClick (index) {
+        this.setState({
+          currentIndex: index
+        })
+      }
+      render () {
+        const {currentIndex} = this.state
+        return (
+          <div>
+            {/* 不使用箭头函数，执行时默认接收event */}
+            <button onClick={this.btnClick}>按钮1</button>
+
+            {/* 使用箭头函数，直接从外层把事件对象传进去 */}
+            <button onClick={(e) => this.btnClick(e)}>按钮2</button>
+            {/* 多参数传递 */}
+            <button onClick={(e) => this.btnClick2('david', 34, e)}>按钮3</button>
+            
+            {/* 点击事件 */}
+            <h2>电影列表</h2>
+            <ul>
+                {
+                  this.state.movies.map((item, index) => {
+                    return (
+                    <li key={item} 
+                    onClick={() => {
+                      this.movieClick(index)
+                    }} 
+                    className={currentIndex === index ? 'active' : ''}
+                    >
+                      {item}
+                    </li>
+                    )
+                  })
+                } 
+            </ul>
+          </div>
+        )
+      }
+    }
+    const root = ReactDOM.createRoot(document.querySelector('#root'))
+    root.render(<App/>)
+  </script>
+</body>
+</html>

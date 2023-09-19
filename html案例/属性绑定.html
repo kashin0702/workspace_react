@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="lib/react.js"></script>
+  <script src="lib/react-dom.js"></script>
+  <script src="lib/babel.js"></script>
+
+  <script type="text/babel">
+    class App extends React.Component {
+      constructor () {
+        super()
+        this.state = {
+          imgurl: 'https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fupload.ct.youth.cn%2Fyouxi%2Fuploadfile%2Fallimg%2F130106%2F10511B541-1.jpg&refer=http%3A%2F%2Fupload.ct.youth.cn&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1668435631&t=e402b3c550d1d341e6427814ca877a0d',
+          href: 'https://www.baidu.com/',
+          isActive: true
+        }
+      }
+      render () {
+        const {isActive} = this.state
+        // 绑定固定样式+动态样式时，使用增强字符串拼接
+        let classNames = `style1 ${isActive ? 'active' : 'other'}`
+        return (
+          <div>
+            {/* 简单的属性绑定 */}
+            <img src={this.state.imgurl}/>
+            <a href={this.state.href}>百度一下</a>
+
+            {/* class绑定 */}
+            <h2 className={classNames}>标题样式</h2>
+          </div>
+        )
+      }
+    }
+
+    const root = ReactDOM.createRoot(document.querySelector('#root'))
+    root.render(<App/>)
+  </script>
+</body>
+</html>

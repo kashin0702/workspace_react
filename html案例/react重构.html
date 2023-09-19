@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="lib/react.js"></script>
+  <script src="lib/react-dom.js"></script>
+  <script src="lib/babel.js"></script>
+
+  <script type="text/babel">
+    class App extends React.Component {
+      // 组件数据
+      constructor () {
+        super() // 必须调用super,执行react.component的constructor
+        this.state = { // state是固定值 不能定义为其他值
+          message: 'hello gyf'
+        }
+        this.changeText = this.changeText.bind(this) // 重点！提前绑定this,这样onClick中就不用进行绑定
+      }
+      // 组件方法(实例方法)
+      changeText () {
+        this.setState({ // 通过setState方法修改message数据, setState继承自React.component
+          message: 'so handsome!'
+        })
+      }
+      // 组件渲染的内容 固定语法必须使用render方法返回
+      render () {
+        return (
+          <div>
+            <h2>{this.state.message}</h2>
+           {/*重点！此处调用会报错this.setState的this是undifined, 因为react绑定默认执行了onClick=this.changeText把这个方法赋值给了onClick 等于执行了onClick()
+              严格模式下this就等于undefined
+              解决方案1：onClick={this.changeText.bind(this)} 这里的this就是render函数的this, 即组件实例
+              解决方案2：在类组件中提前绑定, this.changeText = this.changeText.bind(this) 优点是不用在每个事件中绑定this
+            */}
+            <button onClick={this.changeText}>修改内容</button>
+          </div>
+        )
+      }
+    }
+    const root = ReactDOM.createRoot(document.querySelector('#root'))
+    // 使用类组件渲染
+    root.render(<App/>)
+  </script>
+</body>
+</html>

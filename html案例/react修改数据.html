@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+  <script type="text/babel">
+    function changeMessage () {
+      message = 'hello react'
+      rootRender() // react不会重新渲染页面，需要再次调用方法刷新页面
+    }
+    let message = 'hello world'
+
+    const root = ReactDOM.createRoot(document.querySelector('#root'))
+    rootRender()
+    // 封装渲染页面的方法
+    function rootRender() {
+      root.render((
+        // render渲染的元素必须有一个根元素
+      <div>
+        <h2>{message}</h2>
+        <button onClick={changeMessage}>修改</button>
+      </div>
+    ))
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>hello react</title>
+</head>
+<body>
+  <div id="root"></div>
+  <!-- 依赖引入 react开发必须依赖3个包-->
+  <!-- 方式1：CDN引入 方式2：下载后引入 方式3：NPM安装(脚手架使用)-->
+
+  <!-- 方式1：CDN引入 -->
+  <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+  <!-- 必须添加type才能识别jsx代码 -->
+  <script type="text/babel">
+    // React18前 使用render方法，2个参数 要渲染的内容，渲染内容插入的元素
+    // const root = ReactDOM.render(<h2>hello react</h2>, document.querySelector('#root'))
+    
+    // React18后 使用createRoot方法 分两步 1.创建根元素 2.插入渲染内容
+    const newRoot = ReactDOM.createRoot(document.querySelector('#root'))
+    newRoot.render(<h2>hello react</h2>)
+  </script>
+</body>
+</html>

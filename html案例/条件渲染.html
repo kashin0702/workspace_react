@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="lib/react.js"></script>
+  <script src="lib/react-dom.js"></script>
+  <script src="lib/babel.js"></script>
+
+
+  <script type="text/babel">
+    class App extends React.Component {
+      constructor () {
+        super()
+        this.state = {
+          message: '我是文本',
+          showMessage: false
+        }
+      }
+      btnClick () {
+        this.setState({showMessage: !this.state.showMessage})
+      }
+      render () {
+        const {message, showMessage} = this.state
+        return (
+          <div>
+            <button onClick={() => this.btnClick()}>切换显示文本</button>
+            {/* 当showMessage=false时， 后面不执行就不会被渲染 */}
+            <h2>{showMessage && <span>{message}</span>}</h2>
+            </div>
+        )
+      }
+    }
+
+
+    const root = ReactDOM.createRoot(document.querySelector('#root'))
+    root.render(<App/>)
+  </script>
+</body>
+</html>

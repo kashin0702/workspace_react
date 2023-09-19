@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      box-sizing: border-box;
+    }
+    .my-table {
+      border: 1px solid black;
+      padding: 10px 14px;
+      border-collapse: collapse;
+    }
+    td {
+      padding: 10px 14px;
+      border: 1px solid black;
+      
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script src="lib/react.js"></script>
+  <script src="lib/react-dom.js"></script>
+  <script src="lib/babel.js"></script>
+
+
+  <script type="text/babel">
+    class App extends React.Component {
+      constructor () {
+        super()
+        this.state = {
+          books: [
+            {name: '《计算机科学与技术》', date: '2005-10-02', author: 'xxx', price: '48', count: 0},
+            {name: '《网络概论》', date: '2012-10-05', author: 'zzz', price: '55', count: 0},
+            {name: '《深入浅出node》', date: '2007-12-04', author: 'yyy', price: '66', count: 0}
+          ],
+          rowHeads: ['书名', '出版日期', '作者', '价格', '数量', '操作'],
+          totalPrice: 0
+        }
+      }
+      formatPrice (price) {
+        return '¥' + Number(price).toFixed(2)
+      }
+      // 价格计算
+      handleCount (index, count) {
+        // 浅拷贝state数据 修改state前需要先拷贝原数据修改，再使用setState修改
+        const list = [...this.state.books]
+        list[index].count += count
+        this.setState({
+          books: list
+        })
+      }
+      // 数组归并算总价
+      getTotalPrice () {
+        return this.state.books.reduce((prev, cur) => {
+          return prev + cur.count * cur.price
+        }, 0)
+      }
+      // 常规循环算总价
+      getTotalPrice2 () {
+        let price = null
+        this.state.books.forEach(item => {
+          price += item.price * item.count
+        })
+        return price
+      }
+      removeItem (index) {
+        const list = [...this.state.books]
+        list.splice(index, 1)
+        this.setState({
+          books: list
+        })
+      }
+      render () {
+        if (this.state.books.length > 0) {
+          return (
+            <div>
+              <table className={'my-table'}>
+                <thead>
+                    <tr>
+                      {this.state.rowHeads.map(item => <th key={item}>{item}</th>)}
+                    </tr>
+                </thead>
+                <tbody>
+                  {this.state.books.map((item, index) => {
+                    return (
+                      <tr key={index}>
+                        <td>{item.name}</td>
+                        <td>{item.date}</td>
+                        <td>{item.author}</td>
+                        <td>{this.formatPrice(item.price)}</td>
+                        <td>
+                          <button disabled={item.count === 0} onClick={() => this.handleCount(index, -1)}>-1</button>
+                            {item.count}
+                          <button onClick={() => this.handleCount(index, 1)}>+1</button>
+                        </td>
+                        <td>
+                          <button onClick={() => this.removeItem(index)}>删除</button>
+                          </td>
+                      </tr>
+                    )
+                  })}
+                </tbody>
+              </table>
+              <h2>总价: {this.formatPrice(this.getTotalPrice())}</h2>
+              <h2>总价: {this.formatPrice(this.getTotalPrice2())}</h2>
+            </div>
+          ) 
+        } else {
+          return <h2>购物车为空~</h2>
+        }
+      }
+    }
+
+
+    const root = ReactDOM.createRoot(document.querySelector('#root'))
+    root.render(<App/>)
+  </script>
+</body>
+</html>
